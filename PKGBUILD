@@ -65,16 +65,15 @@ prepare() {
 build() {
     cd $srcdir/ns-allinone-$pkgver
 
+#    --enable-examples \
+#    --enable-tests \
     ./build.py \
-    --enable-examples \
-    --enable-tests \
     --qmake-path=/usr/bin/qmake-qt5 \
     --build-options=--progress \
     -- \
     --build-profile=debug \
     --prefix=/usr \
     --disable-python \
-    --progress \
     --enable-mpi \
     --enable-sudo \
     --libdir=/usr/lib \
