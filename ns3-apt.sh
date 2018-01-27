@@ -22,7 +22,7 @@ sudo pip install cxxfilt
 mkdir -p ~/projects
 cd ~/projects
 hg clone http://code.nsnam.org/ns-3-allinone
+hg clone http://code.nsnam.org/openflow
 cd ns-3-allinone
 ./download.py -n ns-3.27
-./build.py --build-options=--progress -- --build-profile=debug --prefix=/usr --disable-python
-
+./build.py --build-options=--progress -- --build-profile=debug --prefix=/usr --disable-python --with-openflow=../openflow

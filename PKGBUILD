@@ -1,3 +1,4 @@
+# Contributor: Fang He <hf.enigma@gmail.com>
 # Contributor: Yunhui Fu <yhfudev@gmail.com>
 # Maintainer: Shuwen Jethro Sun <jethro.sun7+arch@gmail.com>
 
@@ -13,6 +14,7 @@ depends=(
     'sqlite'
     'libxml2' 'gtk2' 'pygtk'
     'gdb' 'valgrind'
+    'boost' 'boost-libs'
     )
 makedepends=(
     'fakeroot'
@@ -69,14 +71,15 @@ build() {
 #    --enable-tests \
     ./build.py \
     --qmake-path=/usr/bin/qmake-qt5 \
+    --enable-examples \
     --build-options=--progress \
     -- \
     --build-profile=debug \
     --prefix=/usr \
+    --libdir=/usr/lib \
     --disable-python \
     --enable-mpi \
     --enable-sudo \
-    --libdir=/usr/lib \
     --with-nsclick=$srcdir/ns3-click-git \
     --with-openflow=$srcdir/ns3-openflow-hg \
     --with-brite=$srcdir/ns3-brite-hg
