@@ -24,14 +24,15 @@ sudo pip install cxxfilt
 mkdir -p ~/projects
 cd ~/projects
 
-# build openflow
 hg clone http://code.nsnam.org/openflow
+hg clone http://code.nsnam.org/ns-3-allinone
+
+# build openflow
 cd openflow
 ./waf configure
 ./waf build
 
 # build ns3
-hg clone http://code.nsnam.org/ns-3-allinone
 cd ../ns-3-allinone
 ./download.py -n ns-3.27
 # use $HOME or it will fail
