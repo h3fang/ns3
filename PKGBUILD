@@ -69,17 +69,17 @@ build() {
 
 #    --enable-examples \
 #    --enable-tests \
+#    --build-options=--progress \
+#    --enable-sudo \
     ./build.py \
     --qmake-path=/usr/bin/qmake-qt5 \
     --enable-examples \
-    --build-options=--progress \
     -- \
     --build-profile=debug \
     --prefix=/usr \
     --libdir=/usr/lib \
     --disable-python \
     --enable-mpi \
-    --enable-sudo \
     --with-nsclick=$srcdir/ns3-click-git \
     --with-openflow=$srcdir/ns3-openflow-hg \
     --with-brite=$srcdir/ns3-brite-hg
@@ -88,5 +88,5 @@ build() {
 
 package() {
     cd $srcdir/ns-allinone-$pkgver/ns-$pkgver
-    ./waf install --destdir=$pkgdir/
+    #./waf install --destdir=$pkgdir/
 }
