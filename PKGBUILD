@@ -33,10 +33,7 @@ source=(
     "ns3-click-git::git+https://github.com/kohler/click"
     "ns3-brite-hg::hg+http://code.nsnam.org/BRITE"
     )
-md5sums=('SKIP'
-         'SKIP'
-         'SKIP'
-         'SKIP')
+
 sha1sums=('SKIP'
           'SKIP'
           'SKIP'
@@ -87,6 +84,9 @@ build() {
 }
 
 package() {
+    install -m 644 $srcdir/ns3-brite-hg/libbrite.so $pkgdir/usr/lib
+    install -m 644 $srcdir/ns3-click-git/ns/libnsclick.so $pkgdir/usr/lib
+    
     cd $srcdir/ns-allinone-$pkgver/ns-$pkgver
-    #./waf install --destdir=$pkgdir/
+    ./waf install --destdir=$pkgdir/
 }
