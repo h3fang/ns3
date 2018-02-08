@@ -84,9 +84,9 @@ build() {
 }
 
 package() {
-    install -m 644 $srcdir/ns3-brite-hg/libbrite.so $pkgdir/usr/lib
-    install -m 644 $srcdir/ns3-click-git/ns/libnsclick.so $pkgdir/usr/lib
-    
     cd $srcdir/ns-allinone-$pkgver/ns-$pkgver
     ./waf install --destdir=$pkgdir/
+    
+    install -m 644 $srcdir/ns3-brite-hg/libbrite.so $pkgdir/usr/lib
+    install -m 644 $srcdir/ns3-click-git/ns/libnsclick.so $pkgdir/usr/lib
 }
