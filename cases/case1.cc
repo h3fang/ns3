@@ -25,13 +25,14 @@
 #include "ns3/network-module.h"
 #include "ns3/ipv4-global-routing-helper.h"
 #include "ns3/log.h"
+// #include "ns3/netanim-module.h"
+// #include "ns3/mobility-module.h"
 
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("Case1");
 
 bool verbose = false;
-bool use_drop = true;
 float simDurationSeconds = 10.0;
 
 bool SetVerbose(std::string value) {
@@ -40,10 +41,8 @@ bool SetVerbose(std::string value) {
 }
 
 int main(int argc, char *argv[]) {
-  //
   // Allow the user to override any of the defaults and the above Bind() at
   // run-time, via command-line arguments
-  //
   CommandLine cmd;
   cmd.AddValue("v", "Verbose (turns on logging).", MakeCallback(&SetVerbose));
   cmd.Parse(argc, argv);
@@ -125,25 +124,31 @@ int main(int argc, char *argv[]) {
   clientApp.Stop  (Seconds (simDurationSeconds));
 
   NS_LOG_INFO("Configure Tracing.");
-  //
   // Configure tracing of all enqueue, dequeue, and NetDevice receive events.
   // Trace output will be sent to the file "Case1.tr"
-  //
   AsciiTraceHelper ascii;
   csma.EnableAsciiAll(ascii.CreateFileStream("Case1.tr"));
 
-  //
   // Also configure some tcpdump traces; each interface will be traced.
   // The output files will be named:
   //     Case1-<nodeId>-<interfaceId>.pcap
   // and can be read by the "tcpdump -r" command (use "-tt" option to
   // display timestamps correctly)
-  //
   csma.EnablePcapAll("Case1", false);
 
-  //
+  // NetAnim
+  // doesn't work
+  // MobilityHelper mobility;
+  // mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  // mobility.Install (terminals);
+  // mobility.Install (switchs);
+  // AnimationInterface anim ("Case1-animation.xml");
+  // anim.SetConstantPosition (terminals.Get(0), 10, 50);
+  // anim.SetConstantPosition (terminals.Get(1), 40, 50);
+  // anim.SetConstantPosition (switchs.Get(0), 60, 50);
+  // anim.SetConstantPosition (switchs.Get(1), 90, 50);
+
   // Now, do the actual simulation.
-  //
   NS_LOG_INFO("Run Simulation.");
   Simulator::Run();
 
