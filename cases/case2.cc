@@ -22,9 +22,9 @@
 #include "ns3/core-module.h"
 #include "ns3/csma-module.h"
 #include "ns3/internet-module.h"
+#include "ns3/network-module.h"
 #include "ns3/ipv4-global-routing-helper.h"
 #include "ns3/log.h"
-#include "ns3/network-module.h"
 // #include "ns3/netanim-module.h"
 // #include "ns3/mobility-module.h"
 
@@ -103,16 +103,16 @@ int main(int argc, char *argv[]) {
 
   // Create applications
   NS_LOG_INFO("Create Applications.");
-  uint16_t udpEchoPort = 5000;
+  uint16_t udpPort = 5000;
 
-  UdpServerHelper server(udpEchoPort);
+  UdpServerHelper server(udpPort);
 
   ApplicationContainer serverApp = server.Install(terminals.Get(2));
   serverApp.Start(Seconds(0.5));
   serverApp.Stop(Seconds(simDurationSeconds));
 
   auto addr = terminals.Get(2)->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
-  UdpClientHelper client(addr, udpEchoPort);
+  UdpClientHelper client(addr, udpPort);
 
   client.SetAttribute("MaxPackets", UintegerValue((simDurationSeconds - 2.0) / 0.5));
   client.SetAttribute("Interval", TimeValue(Seconds(0.5)));

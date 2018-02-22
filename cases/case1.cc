@@ -32,7 +32,7 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("Case1");
 
-bool verbose = false;
+bool verbose = true;
 float simDurationSeconds = 10.0;
 
 bool SetVerbose(std::string value) {
@@ -44,7 +44,6 @@ int main(int argc, char *argv[]) {
   // Allow the user to override any of the defaults and the above Bind() at
   // run-time, via command-line arguments
   CommandLine cmd;
-  cmd.AddValue("v", "Verbose (turns on logging).", MakeCallback(&SetVerbose));
   cmd.Parse(argc, argv);
 
   Time::SetResolution (Time::NS);
@@ -54,9 +53,7 @@ int main(int argc, char *argv[]) {
     LogComponentEnable ("UdpServer", LOG_LEVEL_INFO);
   }
 
-  //
   // Explicitly create the nodes required by the topology (shown above).
-  //
   NS_LOG_INFO("Create nodes.");
   NodeContainer terminals;
   terminals.Create(2);
@@ -82,8 +79,8 @@ int main(int argc, char *argv[]) {
   lan1Devices.Add(link0.Get(1));
   switchDevices.Add(link1.Get(0));
   switchDevices.Add(link1.Get(1));
-  lan2Devices.Add(link2.Get(0));
   lan2Devices.Add(link2.Get(1));
+  lan2Devices.Add(link2.Get(0));
 
   // Add internet stack to the terminals
   InternetStackHelper internet;
@@ -104,16 +101,16 @@ int main(int argc, char *argv[]) {
 
   // Create applications
   NS_LOG_INFO("Create Applications.");
-  uint16_t udpEchoPort = 5000;
+  uint16_t udpPort = 5000;
 
-  UdpServerHelper server (udpEchoPort);
+  UdpServerHelper server (udpPort);
 
   ApplicationContainer serverApp = server.Install (terminals.Get(1));
   serverApp.Start (Seconds (0.5));
   serverApp.Stop  (Seconds (simDurationSeconds));
 
   auto addr = terminals.Get(1)->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
-  UdpClientHelper client (addr, udpEchoPort);
+  UdpClientHelper client (addr, udpPort);
 
   client.SetAttribute ("MaxPackets", UintegerValue ((simDurationSeconds - 2.0) / 0.5));
   client.SetAttribute ("Interval",   TimeValue     (Seconds (0.5)));
