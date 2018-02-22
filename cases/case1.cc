@@ -50,8 +50,8 @@ int main(int argc, char *argv[]) {
   Time::SetResolution (Time::NS);
   if (verbose) {
     LogComponentEnable("Case1", LOG_LEVEL_INFO);
-    LogComponentEnable ("UdpEchoClientApplication", LOG_LEVEL_INFO);
-    LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);
+    LogComponentEnable ("UdpClient", LOG_LEVEL_INFO);
+    LogComponentEnable ("UdpServer", LOG_LEVEL_INFO);
   }
 
   //
@@ -104,20 +104,20 @@ int main(int argc, char *argv[]) {
 
   // Create applications
   NS_LOG_INFO("Create Applications.");
-  uint16_t udpEchoPort = 1000;
+  uint16_t udpEchoPort = 5000;
 
-  UdpEchoServerHelper server (udpEchoPort);
+  UdpServerHelper server (udpEchoPort);
 
   ApplicationContainer serverApp = server.Install (terminals.Get(1));
   serverApp.Start (Seconds (0.5));
   serverApp.Stop  (Seconds (simDurationSeconds));
 
   auto addr = terminals.Get(1)->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
-  UdpEchoClientHelper client (addr, udpEchoPort);
+  UdpClientHelper client (addr, udpEchoPort);
 
   client.SetAttribute ("MaxPackets", UintegerValue ((simDurationSeconds - 2.0) / 0.5));
   client.SetAttribute ("Interval",   TimeValue     (Seconds (0.5)));
-  client.SetAttribute ("PacketSize", UintegerValue (1000));
+  client.SetAttribute ("PacketSize", UintegerValue (1024));
 
   ApplicationContainer clientApp = client.Install (terminals.Get(0));
   clientApp.Start (Seconds (0.5));
