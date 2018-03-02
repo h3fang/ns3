@@ -136,18 +136,11 @@ int main(int argc, char *argv[]) {
   // and can be read by the "tcpdump -r" command (use "-tt" option to
   // display timestamps correctly)
   csma.EnablePcapAll("Case2", false);
-
-  // NetAnim
-  // doesn't work
-  // MobilityHelper mobility;
-  // mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
-  // mobility.Install (terminals);
-  // mobility.Install (switchs);
-  // AnimationInterface anim ("Case2-animation.xml");
-  // anim.SetConstantPosition (terminals.Get(0), 10, 50);
-  // anim.SetConstantPosition (terminals.Get(1), 40, 50);
-  // anim.SetConstantPosition (switchs.Get(0), 60, 50);
-  // anim.SetConstantPosition (switchs.Get(1), 90, 50);
+  
+  // Trace routing tables 
+  Ipv4GlobalRoutingHelper g;
+  Ptr<OutputStreamWrapper> routingStream = Create<OutputStreamWrapper> ("Case2-global-routing.routes", std::ios::out);
+  g.PrintRoutingTableAllAt (Seconds (1), routingStream);
 
   // Now, do the actual simulation.
   NS_LOG_INFO("Run Simulation.");

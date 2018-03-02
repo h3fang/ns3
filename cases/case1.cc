@@ -144,6 +144,11 @@ int main(int argc, char *argv[]) {
   // anim.SetConstantPosition (terminals.Get(1), 40, 50);
   // anim.SetConstantPosition (switchs.Get(0), 60, 50);
   // anim.SetConstantPosition (switchs.Get(1), 90, 50);
+  
+  // Trace routing tables 
+  Ipv4GlobalRoutingHelper g;
+  Ptr<OutputStreamWrapper> routingStream = Create<OutputStreamWrapper> ("Case1-global-routing.routes", std::ios::out);
+  g.PrintRoutingTableAllAt (Seconds (1), routingStream);
 
   // Now, do the actual simulation.
   NS_LOG_INFO("Run Simulation.");
